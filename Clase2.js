@@ -2,20 +2,7 @@ class ProductManager {
     constructor () {
         this.products = []
     }
-
-    getProducts () {
-        return this.products
-    }
-
-    getProductById (id) {
-        const findProduct = this.products.find((product) => product.id == id)
-        if (findProduct) {
-            return findProduct
-        } else {
-            return "Not found"
-        }
-    }
-
+    
     #createId() {
         let newId = 0
         for (let i = 0; i < this.products.length; i++) {
@@ -28,12 +15,12 @@ class ProductManager {
     } 
 
     addProduct (
-        title,
-        description,
-        price,
-        thumbnail,
-        code,
-        stock
+        title = "producto prueba",
+        description = "este es un producto prueba",
+        price = 200,
+        thumbnail = "sin imagen",
+        code = "abc123",
+        stock = 25
     ) {
         let newProduct = {
             title,
@@ -47,4 +34,21 @@ class ProductManager {
         this.products = [...this.products, newProduct]
         return true
     }
+
+    getProducts () {
+        return this.products
+    }
+    
+    addProduct (
+        
+    )
+    getProductById (id) {
+        const findProduct = this.products.find((product) => product.id == id)
+        if (findProduct) {
+            return findProduct
+        } else {
+            return "Not found"
+        }
+    }
+    
 }
