@@ -14,21 +14,14 @@ class ProductManager {
         return ++newId
     } 
 
-    addProduct (
-        title = "producto prueba",
-        description = "este es un producto prueba",
-        price = 200,
-        thumbnail = "sin imagen",
-        code = "abc123",
-        stock = 25
-    ) {
+    addProduct () {
         let newProduct = {
-            title,
-            description,
-            price,
-            thumbnail,
-            code,
-            stock,
+            title: "prueba",
+            description: "todo prueba",
+            price: 200,
+            thumbnail: "sin imagen",
+            code: "1234",
+            stock: 200,
             id: this.#createId()
         }
         this.products = [...this.products, newProduct]

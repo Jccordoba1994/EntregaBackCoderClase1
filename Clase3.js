@@ -17,36 +17,46 @@ class ProductManager {
         return ++newId
     } 
 
-    addProduct (product) {
+    addProduct (
+
+    ) {
         let newProduct = {
-            title,
-            description,
-            price,
-            thumbnail,
-            code, 
-            stock,
+            title: "producto",
+            description: "producto prueba",
+            price: 500,
+            thumbnail: "sin imagen",
+            code: "abc123", 
+            stock: 15,
             id: this.#createId()
         }
         this.path.push = [...this.path, newProduct]
         const pathString = JSON.stringify(this.path)
         fs.writeFileSync('path.json', pathString)
-        return true
     }
 
     getProducts () {
-        return this.path 
+        const readPathString = fs.readFileSync('path.json', 'utf-8')
+        const path = JSON.stringify(readPathString)
+        this.path = path;
+        return this.path
     }
     
-    addProduct (
-        
-    )
     getProductById (id) {
-        const path = this.products.find((paths) => paths.id == id)
-        if (path) {
-            return path
-        } else {
-            return "Not found"
-        }
+        const path = this.path.find((paths) => paths.id == id)
+        const paths = JSON.parse(path)
+        return paths
     }
     
+    updateProduct (id, nombre) {
+        const search = this.path.find((paths) => paths.id == id)
+        const path = JSON.stringify(search)
+        fs.writeFileSync('path.json', path.nombre)   
+    }
+
+    async deleteProduct(id) {
+        const path = this.path.find((paths) => paths.id == id)
+        await fs.promises.unlink (path)
+    } 
 }
+
+ProductManager.updateProduct({ nombre: "José" })
