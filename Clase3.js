@@ -1,9 +1,9 @@
+const { create } = require('domain')
+const fs = require('fs')
+
 class ProductManager {
     constructor () {
         this.path = []
-        const pathString = fs.readFileSync('path.json', 'utf-8')
-        const path = JSON.parse(pathString)
-        this.path = path;
     }
     
     #createId() {
@@ -17,46 +17,50 @@ class ProductManager {
         return ++newId
     } 
 
-    addProduct (
-
+    addProduct (title, description, price, thumbnail, code, stock
     ) {
         let newProduct = {
-            title: "producto",
-            description: "producto prueba",
-            price: 500,
-            thumbnail: "sin imagen",
-            code: "abc123", 
-            stock: 15,
+            title,
+            description,
+            price,
+            thumbnail,
+            code, 
+            stock,
             id: this.#createId()
         }
-        this.path.push = [...this.path, newProduct]
-        const pathString = JSON.stringify(this.path)
-        fs.writeFileSync('path.json', pathString)
+        this.path = [...this.path, newProduct]
     }
 
     getProducts () {
-        const readPathString = fs.readFileSync('path.json', 'utf-8')
-        const path = JSON.stringify(readPathString)
-        this.path = path;
         return this.path
     }
     
     getProductById (id) {
         const path = this.path.find((paths) => paths.id == id)
-        const paths = JSON.parse(path)
-        return paths
+        return path
     }
     
-    updateProduct (id, nombre) {
-        const search = this.path.find((paths) => paths.id == id)
-        const path = JSON.stringify(search)
-        fs.writeFileSync('path.json', path.nombre)   
+    updateProduct (id, title) {
+        const elemento = this.getProductById(id)
+        elemento.title = title  
     }
 
     async deleteProduct(id) {
-        const path = this.path.find((paths) => paths.id == id)
-        await fs.promises.unlink (path)
+        const elemento = this.getProductById(id)
+        await fs.promises.unlink(elemento)
     } 
 }
 
-ProductManager.updateProduct({ nombre: "José" })
+const productManager = new ProductManager()
+productManager.getProducts()
+console.log(productManager.getProducts());
+
+productManager.addProduct('producto', 'este', 200, 'sin imagen', 'abc123', 25
+)
+console.log(productManager.getProducts());
+console.log('este es filtrado por id',productManager.getProductById(1));
+
+productManager.updateProduct(1, 'otro titulo')
+console.log('cambio de titulo', productManager.getProducts());
+
+productManager.deleteProduct(1)
