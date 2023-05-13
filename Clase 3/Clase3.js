@@ -44,13 +44,15 @@ class ProductManager {
     }
     
     updateProduct (id, title) {
+        fs.readFileSync('array.txt', 'utf-8')
+        const tittle = JSON.parse()
         const elemento = this.getProductById(id)
         elemento.title = title 
-        const titleString = JSON.stringify(title)
-        fs.appendFileSync('array.txt', titleString)
+        fs.whiteFileSync('array.txt', JSON.stringify(title))
     }
 
     async deleteProduct(id) {
+        fs.readFileSync('array.txt', 'utf-8')
         const elemento = this.getProductById(id)
         fs.unlink('array.txt', elemento)
     } 
