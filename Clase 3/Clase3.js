@@ -1,6 +1,8 @@
 const { create } = require('domain')
 const fs = require('fs')
 
+fs.writeFileSync('array.txt', 'asdasd ver')
+
 class ProductManager {
     constructor () {
         this.path = []
@@ -17,18 +19,19 @@ class ProductManager {
         return ++newId
     } 
 
-    addProduct (title, description, price, thumbnail, code, stock
-    ) {
+    addProduct(title, description, price, thumbnail, code, stock) {
         let newProduct = {
             title,
             description,
             price,
             thumbnail,
-            code, 
+            code,
             stock,
             id: this.#createId()
         }
-        this.path = [...this.path, newProduct]
+        this.path.push(newProduct)
+        const productString = JSON.stringify(this.path)
+        fs.writeFileSync('array.txt', productString)
     }
 
     getProducts () {
@@ -42,12 +45,14 @@ class ProductManager {
     
     updateProduct (id, title) {
         const elemento = this.getProductById(id)
-        elemento.title = title  
+        elemento.title = title 
+        const titleString = JSON.stringify(title)
+        fs.appendFileSync('array.txt', titleString)
     }
 
     async deleteProduct(id) {
         const elemento = this.getProductById(id)
-        await fs.promises.unlink(elemento)
+        fs.unlink('array.txt', elemento)
     } 
 }
 
@@ -55,12 +60,14 @@ const productManager = new ProductManager()
 productManager.getProducts()
 console.log(productManager.getProducts());
 
-productManager.addProduct('producto', 'este', 200, 'sin imagen', 'abc123', 25
+productManager.addProduct('bla', 'blabla', 20, 'sin imagen', 'a1s32d', 15
 )
 console.log(productManager.getProducts());
+
 console.log('este es filtrado por id',productManager.getProductById(1));
 
 productManager.updateProduct(1, 'otro titulo')
 console.log('cambio de titulo', productManager.getProducts());
 
 productManager.deleteProduct(1)
+console.log('borrado', getProductById(1));
